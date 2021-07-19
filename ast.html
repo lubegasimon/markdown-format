@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>ast</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<p>This document is based on https://ocaml-doc.github.io/odoc-parser/Odoc_parser/Ast/index.html</p>
+<p>Abstract syntax tree representing ocamldoc comments</p>
+<p>This is a syntactic representation of ocamldoc comments. See The <a href="https://ocaml.org/releases/4.12/htmlman/ocamldoc.html">manual</a> for a detailed description of the syntax understood. Note that there is no attempt at semantic analysis, and hence these types are capable of representing values that will be rejected by further stages, for example, invalid references or headings that are out of range.</p>
+<p><a id="with_location"></a> <code>type 'a with location = 'a</code> <a href="loc.md#with_location">Loc.with_location</a> <!-- FIXME: this link is unreachable --></p>
+<p><a id="style"></a> Variant type <code>style</code></p>
+<ul>
+<li><code>`Bold</code></li>
+<li><code>`Italic</code></li>
+<li><code>`Emphasis</code></li>
+<li><code>`Superscript</code></li>
+<li><code>`Subscript</code></li>
+</ul>
+<p><a id="reference_kind"></a> Variant type <code>reference_kind</code></p>
+<ul>
+<li><code>`Simple</code></li>
+<li><code>`With_text</code></li>
+</ul>
+<p>References in doc comments can be of two kinds: <code>{!Simple}</code> or <code>{{!ref}With_text}</code></p>
+<p><a id="inline_element"></a> Variant type <code>inline_element</code></p>
+<ul>
+<li><code>`Space of string</code></li>
+<li><code>`Word of string</code></li>
+<li><code>`Code_span of string</code></li>
+<li><code>`Raw_markup of string option * string</code></li>
+<li><code>`Styled of</code> <a href="#style">style</a> <code>*</code> <a href="#inline_element">inline_element</a> <a href="#with_location">with_location</a> <code>list</code></li>
+<li><code>`Reference of</code> <a href="#reference_kind">reference_kind</a> <code>*</code> <code>string</code> <a href="#with_location">with_location</a> <code>*</code> <a href="#inline_element">inline_element</a> <a href="#with_location">with_location</a> <code>list</code></li>
+<li><code>`Link of string</code> <code>*</code> <a href="#inline_element">inline_element</a> <a href="#with_location">with_location</a> <code>list</code></li>
+</ul>
+<p>Inline elements are equivalent to what would be found in a <code>span</code> in HTML. Mostly these are straightforward. The <code>`Reference</code> constructor takes a triple whose second element is the reference itself, and the third the replacement text. Similarly the <code>`Link</code> constructor has the link itself as first parameter and the second is the replacement text.</p>
+<p><a id="nested_block_element"></a> Variant type <code>nestable_block_element</code></p>
+<ul>
+<li><code>`Paragraph of</code> <a href="#inline_element">inline_element</a> <a href="#with_location">with_location</a> <code>list</code></li>
+<li><code>`Code_block of string</code> <a href="#with_location">with_location</a> <code>list</code></li>
+<li><code>`Verbatim of string</code></li>
+<li><code>Modules of stirng</code> <a href="#with_location">with_location</a> <code>list</code></li>
+<li><code>`List of [ `Unordered | `Ordered ] * [ `Light | `Heavy ] *</code> <a href="#nested_block_element">nested_block_element</a> <a href="#with_location">with_location</a> <code>list list</code></li>
+</ul>
+<p>Some block elements may be nested within lists or tags, but not all. The <code>`List</code> constructor has a parameter of type <code>[`Light | `Heavy]</code>. This corresponds to the syntactic constructor used (see the <a href="https://ocaml.org/releases/4.12/htmlman/ocamldoc.html">manual</a> ).</p>
+</body>
+</html>

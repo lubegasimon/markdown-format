@@ -171,12 +171,7 @@
 <p><code>val nudge_start : int -&gt;</code> <a href="#span">span</a> <code>-&gt;</code> <a href="#span">span</a></p>
 <p>This adjusts only the column number, implicitly assuming that the offset does not move the location across a newline character.</p>
 <h2 id="located-values">Located values</h2>
-<!-- ##### Record type `+'a with_location` {#with_location} -->
-<p><a id="with_location"></a></p>
-<ul>
-<li><code>location :</code> <a href="#span">span</a></li>
-<li><code>value : 'a</code></li>
-</ul>
+<p><a id="with_location"></a> Record type <code>+'a with_location</code> - <code>location :</code> <a href="#span">span</a> - <code>value : 'a</code></p>
 <p>Describes values located at a particular span</p>
 <p><code>val at :</code> <a href="#span">span</a> <code>list  -&gt; 'a -&gt; 'a</code> <a href="#with_location">with_location</a></p>
 <p>Constructor for <a href="#with_location">with_location</a></p>

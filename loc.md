@@ -34,9 +34,8 @@ This adjusts only the column number, implicitly assuming that the offset does no
 
 ## Located values
 
-<!-- ##### Record type `+'a with_location` {#with_location} -->
 <a id="with_location"></a>
-
+Record type `+'a with_location`
   - `location :` [span][]
   - `value : 'a`
 

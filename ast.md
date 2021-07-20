@@ -5,8 +5,7 @@ Abstract syntax tree representing ocamldoc comments
 This is a syntactic representation of ocamldoc comments. See The [manual][] for a detailed description of the syntax understood. Note that there is no attempt at semantic analysis, and hence these types are capable of representing values that will be rejected by further stages, for example, invalid references or headings that are out of range.
 
 <a id="with_location"></a>
-`type 'a with location = 'a` [Loc.with_location](loc.md#with_location)
-<!-- FIXME: this link is unreachable -->
+`type 'a with location = 'a` <a href="loc.md#with_location">Loc.with_location</a>
 
 <a id="style"></a>
 Variant type `style`
